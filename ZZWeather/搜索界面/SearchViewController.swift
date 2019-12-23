@@ -33,8 +33,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     private func initializeView() {
         //FIXME:在这个需求里这么写没有什么问题
-//        self.searchView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
-//        self.searchView.tableView.frame = searchView.frame
         
         self.view.addSubview(searchView)
         self.searchView.tableView.delegate = self
