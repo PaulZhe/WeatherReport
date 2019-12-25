@@ -24,7 +24,7 @@ class SelectView: UIView {
     typealias BottomButtonClosure = (UIButton) -> ()
     
     lazy var bottomView : UIView = {
-        let bottomView = UIView.init(frame: CGRect(x: 0, y: 692, width: 414, height: 44))
+        let bottomView = UIView.init(frame: CGRect(x: 0, y: 692, width: self.bounds.width, height: 44))
         bottomView.backgroundColor = UIColor.clear
         
         //设置底部bottomButton
@@ -38,7 +38,7 @@ class SelectView: UIView {
     }()
     
     lazy var tableView : UITableView = {
-        let tableView = UITableView.init(frame: CGRect(x: 0, y: 20, width: 414, height: 672), style: UITableView.Style.plain)
+        let tableView = UITableView.init(frame: CGRect(x: 0, y: 20, width: self.bounds.width, height: self.bounds.height - self.bottomView.bounds.height - 20), style: UITableView.Style.plain)
         tableView.backgroundColor = UIColor.clear
         tableView.register(SelectTableViewCell.self, forCellReuseIdentifier: "selectCell")
         
@@ -65,8 +65,8 @@ class SelectView: UIView {
     }
     
     @objc private func click(btn : UIButton) {
-        if self.bottomButtonHandle != nil {
-            bottomButtonHandle!(btn)
+        if let bottomButtonHandle = self.bottomButtonHandle {
+            bottomButtonHandle(btn)
         }
     }
 }

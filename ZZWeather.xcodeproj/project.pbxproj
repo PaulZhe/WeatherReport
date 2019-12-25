@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC4600D023B353D3007ED0A2 /* SelectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4600CF23B353D3007ED0A2 /* SelectModel.swift */; };
+		CC4600D323B35930007ED0A2 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4600D223B35930007ED0A2 /* RequestManager.swift */; };
 		CC58730F23A8FEF800F86AE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC58730E23A8FEF800F86AE0 /* AppDelegate.swift */; };
 		CC58731123A8FEF800F86AE0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC58731023A8FEF800F86AE0 /* SceneDelegate.swift */; };
 		CC58731523A8FEF900F86AE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC58731423A8FEF900F86AE0 /* Assets.xcassets */; };
@@ -75,6 +77,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CC4600CF23B353D3007ED0A2 /* SelectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectModel.swift; sourceTree = "<group>"; };
+		CC4600D223B35930007ED0A2 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		CC58730B23A8FEF800F86AE0 /* ZZWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC58730E23A8FEF800F86AE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC58731023A8FEF800F86AE0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -155,6 +159,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CC4600D123B358FA007ED0A2 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				CC4600D223B35930007ED0A2 /* RequestManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		CC58730223A8FEF800F86AE0 = {
 			isa = PBXGroup;
 			children = (
@@ -178,10 +190,11 @@
 		CC58730D23A8FEF800F86AE0 /* ZZWeather */ = {
 			isa = PBXGroup;
 			children = (
+				CC4600D123B358FA007ED0A2 /* Managers */,
 				CC58731C23A8FEF900F86AE0 /* Info.plist */,
-				CC5873CE23AA44DF00F86AE0 /* 搜索界面 */,
-				CC58738B23A9135100F86AE0 /* 首页 */,
-				CC58738A23A9133C00F86AE0 /* 选择界面 */,
+				CC5873CE23AA44DF00F86AE0 /* Search */,
+				CC58738B23A9135100F86AE0 /* HomePage */,
+				CC58738A23A9133C00F86AE0 /* Select */,
 				CC58738923A9132B00F86AE0 /* SupportingFiles */,
 				CC58734223A9122900F86AE0 /* 天气预报素材 */,
 				CC58731623A8FEF900F86AE0 /* Preview Content */,
@@ -267,31 +280,32 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
-		CC58738A23A9133C00F86AE0 /* 选择界面 */ = {
+		CC58738A23A9133C00F86AE0 /* Select */ = {
 			isa = PBXGroup;
 			children = (
 				CC58738723A9129300F86AE0 /* SelectViewController.swift */,
 				CC58738C23A913CB00F86AE0 /* SelectView.swift */,
 				CC5873CC23AA23DA00F86AE0 /* SelectTableViewCell.swift */,
+				CC4600CF23B353D3007ED0A2 /* SelectModel.swift */,
 			);
-			path = "选择界面";
+			path = Select;
 			sourceTree = "<group>";
 		};
-		CC58738B23A9135100F86AE0 /* 首页 */ = {
+		CC58738B23A9135100F86AE0 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
 				CC58733E23A90D0000F86AE0 /* HomePageViewController.swift */,
 			);
-			path = "首页";
+			path = HomePage;
 			sourceTree = "<group>";
 		};
-		CC5873CE23AA44DF00F86AE0 /* 搜索界面 */ = {
+		CC5873CE23AA44DF00F86AE0 /* Search */ = {
 			isa = PBXGroup;
 			children = (
 				CC5873CF23AA453000F86AE0 /* SearchViewController.swift */,
 				CC5873D123AA4B9900F86AE0 /* SearchView.swift */,
 			);
-			path = "搜索界面";
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -465,9 +479,11 @@
 				CC58738823A9129300F86AE0 /* SelectViewController.swift in Sources */,
 				CC58733F23A90D0000F86AE0 /* HomePageViewController.swift in Sources */,
 				CC5873D223AA4B9900F86AE0 /* SearchView.swift in Sources */,
+				CC4600D323B35930007ED0A2 /* RequestManager.swift in Sources */,
 				CC58730F23A8FEF800F86AE0 /* AppDelegate.swift in Sources */,
 				CC58731123A8FEF800F86AE0 /* SceneDelegate.swift in Sources */,
 				CC5873CD23AA23DA00F86AE0 /* SelectTableViewCell.swift in Sources */,
+				CC4600D023B353D3007ED0A2 /* SelectModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

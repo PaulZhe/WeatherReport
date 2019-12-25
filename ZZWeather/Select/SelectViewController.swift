@@ -24,7 +24,7 @@ extension URL {
 class SelectViewController: UIViewController, SearchViewControllerDelegate {
     
     var selectView = SelectView.init(frame: CGRect(x: 0, y: 0, width: 414, height: 736))
-    var passArray = Array<String>()
+    var showCityNames = Array<String>()
     var tmpArray = Array<String>()
     var timeArray = Array<String>()
     
@@ -45,19 +45,19 @@ class SelectViewController: UIViewController, SearchViewControllerDelegate {
         self.selectView.tableView.dataSource = self
         selectView.bottomButtonHandle = { (sender : UIButton) -> () in
             let searchViewController = SearchViewController()
-            self.present(searchViewController, animated: true, completion: nil)
-            //FIXME:self.
-            searchViewController.receiveArray = self.passArray
+            searchViewController.showCityNames = self.showCityNames
             searchViewController.delegate = self
+            self.present(searchViewController, animated: true, completion: nil)
         }
     }
 
     
     func pass(array: Array<String>) {
-        self.passArray = array
+        self.showCityNames = array
         
         // urlcomponents (url builder)
-        let urlStr = "https://free-api.heweather.com/s6/weather/now" + "?" + "location=" + (passArray.last ?? "") + "&key=c563861f72c649f2a698a472080eaa8c"
+        
+        let urlStr = "https://free-api.heweather.com/s6/weather/now" + "?" + "location=" + (showCityNames.last ?? "") + "&key=c563861f72c649f2a698a472080eaa8c"
         let url = URL.initChinese(string: urlStr)
         
         let request : URLRequest = URLRequest.init(url: url)
@@ -79,21 +79,17 @@ class SelectViewController: UIViewController, SearchViewControllerDelegate {
         }.resume()
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        selectView.tableView.deselectRow(at: indexPath, animated: true)
-//        let home : HomePageViewController = HomePageViewController()
-//    }
 }
 
 extension SelectViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return passArray.count
+        return showCityNames.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : SelectTableViewCell = selectView.tableView.dequeueReusableCell(withIdentifier: "selectCell", for: indexPath) as! SelectTableViewCell
         cell.timeLabel.text = timeArray[indexPath.row]
-        cell.siteLabel.text = passArray[indexPath.row]
+        cell.siteLabel.text = showCityNames[indexPath.row]
         cell.temperatrueLabel.text = tmpArray[indexPath.row] + "°"
         
         return cell
@@ -101,5 +97,9 @@ extension SelectViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return SelectTableViewCell.cellHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectView.tableView.deselectRow(at: indexPath, animated: true)
     }
 }
