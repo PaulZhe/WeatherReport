@@ -8,9 +8,9 @@
 
 import UIKit
 
-struct SelectViewConstants {
-    static let fooHeight: CGFloat = 10
-}
+//struct SelectViewConstants {
+//    static let fooHeight: CGFloat = 10
+//}
 
 class SelectView: UIView {
     
@@ -23,13 +23,14 @@ class SelectView: UIView {
     */
     typealias BottomButtonClosure = (UIButton) -> ()
     
-    lazy var bottomView : UIView = {
-        let bottomView = UIView.init(frame: CGRect(x: 0, y: 692, width: self.bounds.width, height: 44))
+    private lazy var bottomView : UIView = {
+        let bottomView = UIView.init(frame: CGRect(x: 0, y: DeviceHeight * 0.94, width: self.bounds.width, height: DeviceHeight * 0.06))
         bottomView.backgroundColor = UIColor.clear
         
         //设置底部bottomButton
         let bottomButton : UIButton = UIButton.init(type: UIButton.ButtonType.custom)
-        bottomButton.frame = CGRect(x: 374, y: 7, width: 30, height: 30)
+        let kBottomButtonFromTopOffset : CGFloat = 7
+        bottomButton.frame = CGRect(x: DeviceWidth - bottomView.bounds.height + kBottomButtonFromTopOffset, y: kBottomButtonFromTopOffset, width: bottomView.bounds.height - 14, height: bottomView.bounds.height - 14)
         bottomButton.setImage(UIImage.init(named: "添加"), for: UIControl.State.normal)
         bottomButton.addTarget(self, action: #selector(click(btn:)), for: .touchUpInside)
         bottomView.addSubview(bottomButton)
@@ -45,6 +46,13 @@ class SelectView: UIView {
         return tableView
     }()
     
+    private lazy var backGroundImageView : UIImageView = {
+        
+        let backGroundImageView = UIImageView(frame: self.bounds)
+        backGroundImageView.image = UIImage(named: "back1.jpg")
+        return backGroundImageView
+    }()
+    
     var bottomButtonHandle : BottomButtonClosure?
     
     override init(frame: CGRect) {
@@ -57,8 +65,7 @@ class SelectView: UIView {
     }
     
     private func initializeView() {
-        self.layer.contents = UIImage(named: "back1.jpg")?.cgImage
-        
+        self.addSubview(backGroundImageView)
         self.addSubview(bottomView)
         self.addSubview(tableView)
         

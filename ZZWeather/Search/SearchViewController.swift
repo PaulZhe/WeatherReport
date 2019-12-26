@@ -9,14 +9,13 @@
 import UIKit
 
 protocol SearchViewControllerDelegate {
-    func pass(array : Array<String>) -> ()
+    func passTheSelectedCityNameToSelectController(selectedCityName : String) -> ()
 }
 
 class SearchViewController: UIViewController {
     
-    var showCityNames = Array<String>()
-    var searchResultsList = Array<String>()
-    private var searchView = SearchView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    private var searchResultsList = Array<String>()
+    private var searchView = SearchView(frame: CGRect(x: 0, y: 0, width: DeviceWidth, height: DeviceHeight))
     
     var delegate : SearchViewControllerDelegate?
 
@@ -60,22 +59,19 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell : UITableViewCell? = tableView .dequeueReusableCell(withIdentifier: "cell")
-        if cell == nil {
-            cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
-        }
-        cell?.backgroundColor = UIColor.clear
-        cell?.contentView.backgroundColor = UIColor.clear
-        cell?.textLabel?.textColor = UIColor.white
-        cell?.textLabel?.text = searchResultsList[indexPath.row]
-        return cell!
+        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "commonCell", for: indexPath)
+
+        cell.backgroundColor = UIColor.clear
+        cell.contentView.backgroundColor = UIColor.clear
+        cell.textLabel?.textColor = UIColor.white
+        cell.textLabel?.text = searchResultsList[indexPath.row]
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.showCityNames.contains(self.searchResultsList[indexPath.row]) == false {
-            self.showCityNames.append(self.searchResultsList[indexPath.row])
-            self.delegate?.pass(array: showCityNames)
-        }
+        let selectedCityName = self.searchResultsList[indexPath.row]
+        self.delegate?.passTheSelectedCityNameToSelectController(selectedCityName: selectedCityName)
+
         self.dismiss(animated: true, completion: nil)
         self.dismiss(animated: true, completion: nil)
     }
@@ -90,26 +86,29 @@ extension SearchViewController : UISearchResultsUpdating {
             searchResultsList.removeAll()
         }
 
-        let urlStr = "https://search.heweather.com/find" + "?" + "location=" + inputStr + "&key=c563861f72c649f2a698a472080eaa8c"
-        var request : URLRequest = URLRequest.init(url: URL.init(string: urlStr)!)
-        request.httpMethod = "GET"
-
-        URLSession.shared.dataTask(with: request) { (data : Data?, response : URLResponse?, error : Error?) in
-            do {
-
-                let dic : Dictionary = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableLeaves) as! Dictionary<String, Array<Dictionary<String, AnyObject>>>
-                let array : Array? = dic["HeWeather6"]![0]["basic"] as? Array<Dictionary<String, AnyObject>>
-                for obj in array ?? [] {
-                    self.searchResultsList.append(obj["location"] as! String)
-                }
-
-                DispatchQueue.main.async {
-                    self.searchView.tableView.reloadData()
-                }
-            } catch {
+        RequestManager.manager.requestLocations(with: inputStr, success: { (locationMessageModel) in
+            
+            let concreteLocationBasicMessages = locationMessageModel.HeWeather6[0].basic
+            
+            for concreteLocationBasicItem in concreteLocationBasicMessages {
+                self.searchResultsList.append(concreteLocationBasicItem.location)
+            }
+            
+            DispatchQueue.main.async {
+                self.searchView.tableView.reloadData()
+            }
+        }) { (error) in
+            
+            switch error {
+            case RequestError.dataIsNil:
+                print("data is nil")
+            case RequestError.jsonDecodeFailed:
+                print("JSON decode failed")
+            case RequestError.urlHasWrong:
+                print("URL is wrong")
+            default:
                 print(error)
             }
-
-        }.resume()
+        }
     }
 }

@@ -13,8 +13,14 @@ class SearchView: UIView {
     lazy var tableView : UITableView = {
         let tableView = UITableView(frame: self.bounds, style: UITableView.Style.plain)
         tableView.backgroundColor = UIColor.clear
-        
         return tableView
+    }()
+    
+    private lazy var backGroundImageView : UIImageView = {
+        
+        let backGroundImageView = UIImageView(frame: self.bounds)
+        backGroundImageView.image = UIImage(named: "back2.jpg")
+        return backGroundImageView
     }()
     
     var searchController : UISearchController?
@@ -29,8 +35,8 @@ class SearchView: UIView {
     }
     
     private func initializeView() {
-        self.layer.contents = UIImage(named: "back2.jpg")?.cgImage
-        
+        self.addSubview(backGroundImageView)
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "commonCell")
         self.addSubview(tableView)
     }
 }
