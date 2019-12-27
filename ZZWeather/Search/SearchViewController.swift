@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SearchViewControllerDelegate {
-    func passTheSelectedCityNameToSelectController(selectedCityName : String) -> ()
+    func didSelectedTheCityFromSearchController(selectedCityName : String) -> ()
 }
 
 class SearchViewController: UIViewController {
@@ -70,7 +70,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCityName = self.searchResultsList[indexPath.row]
-        self.delegate?.passTheSelectedCityNameToSelectController(selectedCityName: selectedCityName)
+        self.delegate?.didSelectedTheCityFromSearchController(selectedCityName: selectedCityName)
 
         self.dismiss(animated: true, completion: nil)
         self.dismiss(animated: true, completion: nil)
@@ -82,17 +82,15 @@ extension SearchViewController : UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let inputStr : String = searchController.searchBar.text ?? ""
 
-        if searchResultsList.count > 0 {
-            searchResultsList.removeAll()
-        }
-
-        RequestManager.manager.requestLocations(with: inputStr, success: { (locationMessageModel) in
+        RequestManager.requestLocations(with: inputStr, success: { (locationMessageModel) in
             
             let concreteLocationBasicMessages = locationMessageModel.HeWeather6[0].basic
             
+            var tempResultsList = Array<String>()
             for concreteLocationBasicItem in concreteLocationBasicMessages {
-                self.searchResultsList.append(concreteLocationBasicItem.location)
+                tempResultsList.append(concreteLocationBasicItem.location)
             }
+            self.searchResultsList = tempResultsList
             
             DispatchQueue.main.async {
                 self.searchView.tableView.reloadData()

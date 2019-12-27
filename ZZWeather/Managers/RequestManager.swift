@@ -18,10 +18,10 @@ enum RequestError : Error {
 }
 
 class RequestManager: NSObject {
-    static let manager = RequestManager()
+//    static let manager = RequestManager()
     
-    func requestCityWeather(with cityName: String, success : @escaping CityWeatherCompletionHandler, failure : @escaping FailureHandler) {
-        guard let url = GetCityWeatherURLFromComponents(cityName) else {
+    static func requestCityWeather(with cityName: String, success : @escaping CityWeatherCompletionHandler, failure : @escaping FailureHandler) {
+        guard let url = getCityWeatherURLFromComponents(cityName) else {
             failure(RequestError.urlHasWrong)
             return
         }
@@ -44,8 +44,8 @@ class RequestManager: NSObject {
         
     }
     
-    func requestLocations(with inputString: String, success : @escaping LocationsCompletionHandler, failure : @escaping FailureHandler) {
-        guard let url = GetLocationsURLFromComponents(inputString) else {
+    static func requestLocations(with inputString: String, success : @escaping LocationsCompletionHandler, failure : @escaping FailureHandler) {
+        guard let url = getLocationsURLFromComponents(inputString) else {
             failure(RequestError.urlHasWrong)
             return
         }
@@ -68,7 +68,7 @@ class RequestManager: NSObject {
         
     }
     
-    private func GetCityWeatherURLFromComponents(_ cityName: String) -> URL? {
+    static private func getCityWeatherURLFromComponents(_ cityName: String) -> URL? {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "free-api.heweather.com"
@@ -79,7 +79,7 @@ class RequestManager: NSObject {
         return components.url
     }
     
-    private func GetLocationsURLFromComponents(_ inputString: String) -> URL? {
+    static private func getLocationsURLFromComponents(_ inputString: String) -> URL? {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "search.heweather.com"

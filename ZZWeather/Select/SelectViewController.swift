@@ -29,14 +29,16 @@ class SelectViewController: UIViewController, SearchViewControllerDelegate {
         self.view.addSubview(selectView)
         self.selectView.tableView.delegate = self
         self.selectView.tableView.dataSource = self
-        selectView.bottomButtonHandle = { (sender : UIButton) -> () in
+        
+        selectView.bottomButtonHandle = { [weak self] (sender : UIButton) -> () in
+            guard let self = self else { return }
             let searchViewController = SearchViewController()
             searchViewController.delegate = self
             self.present(searchViewController, animated: true, completion: nil)
         }
     }
 
-    func passTheSelectedCityNameToSelectController(selectedCityName: String) {
+    func didSelectedTheCityFromSearchController(selectedCityName: String) {
         guard !showCityNames.contains(selectedCityName) else {
             print("Selected cityname is existed")
             return
@@ -48,7 +50,7 @@ class SelectViewController: UIViewController, SearchViewControllerDelegate {
             return
         }
         
-        RequestManager.manager.requestCityWeather(with: cityName, success: { (cityMessageModel) in
+        RequestManager.requestCityWeather(with: cityName, success: { (cityMessageModel) in
             
             self.showCitys.append(cityMessageModel)
             
